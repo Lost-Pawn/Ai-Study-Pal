@@ -1,0 +1,6 @@
+data/
+*.txt
+*.bin
+*.model
+.env
+data/*.png

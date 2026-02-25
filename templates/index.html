@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Study Pal - Launch Your Learning</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/style.css"> 
+    <!-- "{{ url_for('static', filename='style.css') }}"> -->
+</head>
+<body class="bg-light">
+
+<div class="container min-vh-100 d-flex flex-column justify-content-center align-items-center py-5">
+    
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-primary mb-3">AI Study Pal</h1>
+        <p class="lead text-muted">Your intelligent assistant for generating study plans, quizzes, and summaries.</p>
+    </div>
+
+    <div class="card shadow-lg border-0 rounded-4 w-100" style="max-width: 600px;">
+        <div class="card-body p-5">
+            <form action="/process" method="POST">
+                
+                <div class="mb-4">
+                    <label for="subject" class="form-label fw-semibold">Enter your subject</label>
+                    <input type="text" class="form-control form-control-lg bg-light border-0" id="subject" name="subject" placeholder="e.g. DSA, Python..." required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="hours" class="form-label fw-semibold">How many hours can you dedicate?</label>
+                    <input type="number" class="form-control form-control-lg bg-light border-0" id="hours" name="hours" placeholder="e.g., 2" min="1" max="24" required>
+                </div>
+
+                <div class="mb-4">
+                    <label for="text" class="form-label fw-semibold">Paste your study material (notes, wiki snippets):</label>
+                    <textarea class="form-control bg-light border-0 custom-scrollbar" id="text" name="text" rows="6" placeholder="Paste the text you want the AI to summarize and generate a quiz from..." required></textarea>
+                </div>
+
+                <div class="d-grid mt-5">
+                    <button type="submit" class="btn btn-primary btn-lg fw-bold rounded-pill shadow-sm transition-all">
+                        Generate the plan
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    
+    <div class="mt-5 text-muted small text-center">
+        <p>&copy; 2026 AI Study Pal Capstone Project by Shashank</p>
+    </div>
+
+</div>
+
+</body>
+</html>
