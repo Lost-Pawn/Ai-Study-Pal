@@ -10,9 +10,9 @@ for col in text_cols:
     if col in data.columns:
         data[col] = data[col].astype(str).str.lower().str.strip()
 
-clean_data = data.drop_duplicates(subset=["subject", "text", "difficulty"])
+clean_data = data.drop_duplicates(subset=["subject", "text", "difficulty"]) # removes duplicate texts
 
-clean_data = clean_data.dropna(subset=["subject", "text", "study_hours_needed"])
+clean_data = clean_data.dropna(subset=["subject", "text", "study_hours_needed"]) # removes NaN
 
 os.makedirs("data", exist_ok=True)
 clean_data.to_csv("data/clean_data.csv", index=False)  

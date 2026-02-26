@@ -18,7 +18,7 @@ categories = df.get(C, pd.Series([""] * len(df))).astype(str).tolist()
 def split_sentences(text):
     return sent_tokenize(text)
 
-def build_training_data(paragraphs):
+def build_training_data(paragraphs): # priotizes starting sentances 
     X, y = [], []
     for text in paragraphs:
         sentences = split_sentences(text)
@@ -26,7 +26,7 @@ def build_training_data(paragraphs):
         if total == 0: continue
         for i, sent in enumerate(sentences):
             X.append(sent)
-            y.append(round(((1 - (i / total)) + min(len(sent.split()) / 20, 1.0)) / 2, 2))
+            y.append(round(((1 - (i / total)) + min(len(sent.split()) / 20, 1.0)) / 2, 2)) # importance for sentances > 20 words
     return X, y
 
 X_data, y_data = build_training_data(paragraphs)
@@ -38,11 +38,12 @@ vocab_size = len(tokenizer.word_index) + 1
 X_seq = pad_sequences(tokenizer.texts_to_sequences(X_data), maxlen=30, padding="post")
 y_arr = np.array(y_data)
 
+# neural network
 model = Sequential([
     Embedding(input_dim=vocab_size, output_dim=32, input_length=30),
     GlobalAveragePooling1D(),
-    Dense(16, activation="relu"),
-    Dense(1, activation="sigmoid")
+    Dense(16, activation="relu"), # 16 neurons hidden layer
+    Dense(1, activation="sigmoid") # outputs importance score 0/1
 ])
 
 model.compile(optimizer="adam", loss="mse", metrics=["mae"])

@@ -36,9 +36,9 @@ def fetch_wikipedia_summary(topic, sentences=30):
         summary = wikipedia.summary(topic, sentences=sentences, auto_suggest=False)
         return summary, topic
     except wikipedia.DisambiguationError as e:
-        print(f" Disambiguation for '{topic}', trying: '{e.options[0]}'")
+        print(f" Disambiguation: '{topic}', trying: '{e.options[0]}'")
 
-        try:
+        try: #recheck as e.topic
             summary = wikipedia.summary(e.options[0], sentences=sentences, auto_suggest=False)
             return summary, e.options[0]
         except Exception as inner_e:
@@ -49,10 +49,10 @@ def fetch_wikipedia_summary(topic, sentences=30):
     except Exception as e:
         print(f" Error : {e}")
 
-    try:
+    try: # last level
         search_results = wikipedia.search(topic, results=3)
         if not search_results:
-            print(f" No search results found for '{topic}'")
+            print(f" No results for '{topic}'")
             return None, None
         
         for candidate in search_results:
@@ -70,7 +70,7 @@ def fetch_wikipedia_summary(topic, sentences=30):
             except:
                 continue
         
-        print(f" All search candidates failed for '{topic}'")
+        print(f" All candidates failed for '{topic}'")
         return None, None
 
     except Exception as e:
@@ -132,7 +132,7 @@ for i, topic in enumerate(topics, 1):
         "word_count":          word_count
     })
 
-    time.sleep(1.2)   
+    time.sleep(1.2)   # rest
 
 print(f"\n Done ")
 print(f"Fetched:  {len(data_list)} topics")

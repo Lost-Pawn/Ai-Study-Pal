@@ -40,7 +40,7 @@ CLOUD_TOPICS = {
     "kubernetes for ml orchestration", "serverless ml inference"
 }
 
-def map_subject(topic):
+def map_subject(topic): # maps the topics from dataset with these subjects
     topic = topic.strip().lower()
     if topic in DSA_TOPICS:
         return "dsa"
@@ -74,8 +74,8 @@ df["category"] = df["subject"].apply(map_subject)
 vectorizer = TfidfVectorizer(stop_words="english", max_features=5000)
 
 texts_cluster = df[["category", "paragraph"]].copy()
-X_cluster = vectorizer.fit_transform(texts_cluster["paragraph"])
-cluster_samples = X_cluster.shape[0]
+X_cluster = vectorizer.fit_transform(texts_cluster["paragraph"]) # converts texts into numerical format
+cluster_samples = X_cluster.shape[0] 
 
 if cluster_samples >= 2:
     n_clusters = min(5, cluster_samples)
@@ -86,6 +86,7 @@ else:
 
 df["cluster"] = texts_cluster["cluster"]
 
+# it groups the clusters with frequent categories and forms a dict
 cluster_map = texts_cluster.groupby("cluster")["category"].agg(lambda x: x.value_counts().idxmax()).to_dict()
 
 def get_resources_by_cluster(cluster_id):

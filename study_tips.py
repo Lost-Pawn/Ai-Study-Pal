@@ -48,11 +48,11 @@ def extract_keywords(text, top_n=4):
         word for word in tokens
         if word.isalpha() and word not in stop_words and len(word) > 3
     ]
-    freq = FreqDist(filtered)
+    freq = FreqDist(filtered) # checks most common words
     return [word for word, _ in freq.most_common(top_n)]
 
 def generate_tips(category):
-    return tips_template.get(category.strip().lower(), generic_tips)[:3]
+    return tips_template.get(category.strip().lower(), generic_tips)[:3] # bags tips 
 
 print("Study Tips Generator: \n")
 

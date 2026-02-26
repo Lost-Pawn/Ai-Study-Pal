@@ -22,10 +22,10 @@ vectorizer = TfidfVectorizer(
     min_df=1
 )
 
-vectorizer.fit(df["text"])
+vectorizer.fit(df["text"]) 
 terms = vectorizer.get_feature_names_out()
 
-def extract_answer(text):
+def extract_answer(text): # extracts the answer from the paragraph
     vec = vectorizer.transform([text])
     scores = vec.toarray()[0]
     sorted_indices = scores.argsort()[::-1]
@@ -37,18 +37,18 @@ def extract_answer(text):
 
     return None
 
-def create_question(text, answer):
+def create_question(text, answer): 
     sentences = sent_tokenize(text)
     for sentence in sentences:
         if (
             answer.lower() in sentence.lower()
             and len(sentence.split()) > 6
         ):
-            pattern = re.compile(re.escape(answer), re.IGNORECASE)
+            pattern = re.compile(re.escape(answer), re.IGNORECASE) # puts a blank in the place with answer to make quiz
             return pattern.sub("_____", sentence)
     return None
 
-def get_distractors(answer, all_terms, n=3):
+def get_distractors(answer, all_terms, n=3): # makes 3 distractors 
     distractors = [
         t for t in all_terms
         if t.lower() != answer.lower()
@@ -83,7 +83,7 @@ for row in df.itertuples():
         continue
 
     options = distractors + [answer]
-    random.shuffle(options)
+    random.shuffle(options) # and suffles them everytime
 
     quiz_data.append({
         "subject": subject,
@@ -100,8 +100,6 @@ for row in df.itertuples():
     seen_answers[subject].add(answer)
 
 final_quiz_df = pd.DataFrame(quiz_data)
-output_path = "data/generated_mcqs.csv"
-final_quiz_df.to_csv(output_path, index=False)
+final_quiz_df.to_csv("data/generated_mcqs.csv", index=False)
 
 print("Generated:", len(final_quiz_df))
-print("Saved to:", output_path)

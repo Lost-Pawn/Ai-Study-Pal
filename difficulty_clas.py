@@ -14,7 +14,7 @@ X_vec = vectorizer.fit_transform(X)
 
 X_train, X_test, Y_train, Y_test = train_test_split(
     X_vec, Y, test_size=0.2, random_state=42
-)
+) # 80% data
 
 min_class_count = Y_train.value_counts().min()
 cv_folds = min(5, min_class_count)
@@ -27,6 +27,7 @@ param_grid = {
     "max_iter": [100, 200, 300]
 }
 
+# hyperparameter tuning
 grid_search = GridSearchCV(
     model,
     param_grid,
@@ -46,7 +47,7 @@ print("Accuracy:", accuracy)
 print("F1 Score:", f1_accuracy)
 
 text_vec_all = vectorizer.transform(df['question'])
-predicted_labels_all = best_model.predict(text_vec_all)
+predicted_labels_all = best_model.predict(text_vec_all) # predicts for each question and labels them
 
 predicted_difficulty_list = []
 for label in predicted_labels_all:
